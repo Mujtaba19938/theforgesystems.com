@@ -827,27 +827,11 @@ function Footer() {
       </div>
 
       {/* Copyright bar */}
-      <div className="max-w-[1200px] mx-auto px-6 py-4 pb-28 flex items-center justify-between text-sm text-gray-500">
+      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between text-sm text-gray-500">
         <span>Lumora Studio Limited</span>
         <span>Austin, USA</span>
       </div>
     </footer>
-  )
-}
-
-function BottomNav() {
-  return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="liquid-glass rounded-full px-8 py-2 flex items-center gap-6 shadow-[0_8px_32px_rgba(0,0,0,0.5),0_2px_8px_rgba(0,0,0,0.3)]">
-        <span className="italic text-2xl font-semibold text-white">L</span>
-        <button
-          className="bg-white text-black text-sm px-5 py-2.5 rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap"
-          style={{ fontFamily: SANS }}
-        >
-          Start a chat
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -861,7 +845,6 @@ export default function App() {
       <CtaSection />
       <TestimonialsSection />
       <Footer />
-      <BottomNav />
     </main>
   )
 }
