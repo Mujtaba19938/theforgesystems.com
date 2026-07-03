@@ -1,5 +1,14 @@
-import { useRef, useState } from 'react'
-import { Menu, X, Check, ArrowRight } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import {
+  Menu,
+  X,
+  Check,
+  ArrowRight,
+  ArrowUpRight,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { MotionValue } from 'framer-motion'
 
@@ -107,6 +116,27 @@ function ScrollRevealText({ text, className = '' }: { text: string; className?: 
       })}
     </p>
   )
+}
+
+function useInViewAnimation<T extends HTMLElement>() {
+  const ref = useRef<T>(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+  return { ref, animClass: visible ? 'animate-fade-in-up' : 'opacity-0' }
 }
 
 /* ---------------------------------- */
@@ -554,24 +584,270 @@ function CtaSection() {
 }
 
 /* ---------------------------------- */
+/* Section 6: Testimonials            */
+/* ---------------------------------- */
+
+const TESTIMONIALS = [
+  {
+    name: 'Marcus Anderson',
+    role: 'CEO, Data.storage',
+    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=96',
+    quote:
+      'With very little guidance the team delivered designs that were consistently spot on — polished, on-brand, and ready to ship.',
+  },
+  {
+    name: 'alexwu',
+    role: 'Founder, Nexgate',
+    avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=96',
+    quote:
+      'Mujtaba led the creation of our best fundraising deck to date! Clear, confident, and beautifully designed.',
+  },
+  {
+    name: 'James Mitchell',
+    role: 'VP Product, LaunchPad',
+    avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=96',
+    quote:
+      'Working with Mujtaba transformed our product vision into something users genuinely love.',
+  },
+  {
+    name: 'Rachel Foster',
+    role: 'Co-founder, Nexus Labs',
+    avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=96',
+    quote:
+      'The design quality exceeded our expectations at every turn — fast, thoughtful, and detail-obsessed.',
+  },
+  {
+    name: 'David Zhang',
+    role: 'Head of Design, Paradigm Labs',
+    avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=96',
+    quote:
+      'Incredible work from start to finish. Communication was effortless and the results speak for themselves.',
+  },
+]
+
+function QuoteMark() {
+  return (
+    <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M0 24V14.4C0 6.45 4.95 1.2 13.05 0l1.35 3.6c-4.5 1.2-7.05 3.75-7.35 7.2h6.15V24H0Zm18.75 0V14.4c0-7.95 4.95-13.2 13.05-14.4l1.35 3.6c-4.5 1.2-7.05 3.75-7.35 7.2h6.15V24H18.75Z"
+        fill="#b5c99a"
+      />
+    </svg>
+  )
+}
+
+function TestimonialsSection() {
+  const N = TESTIMONIALS.length
+  const tripled = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS]
+
+  const [index, setIndex] = useState(N)
+  const [instant, setInstant] = useState(false)
+  const [paused, setPaused] = useState(false)
+  const [step, setStep] = useState(451.5)
+  const trackRef = useRef<HTMLDivElement>(null)
+
+  const header = useInViewAnimation<HTMLDivElement>()
+  const carousel = useInViewAnimation<HTMLDivElement>()
+
+  useEffect(() => {
+    const measure = () => {
+      const first = trackRef.current?.children[0] as HTMLElement | undefined
+      if (first) setStep(first.offsetWidth + 24)
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+
+  useEffect(() => {
+    if (paused) return
+    const id = setInterval(() => setIndex((i) => i + 1), 3000)
+    return () => clearInterval(id)
+  }, [paused])
+
+  // After sliding past a copy boundary, snap back to the middle copy
+  // without a transition so the loop is seamless.
+  const handleTransitionEnd = () => {
+    setIndex((i) => {
+      if (i >= 2 * N) {
+        setInstant(true)
+        return i - N
+      }
+      if (i < N) {
+        setInstant(true)
+        return i + N
+      }
+      return i
+    })
+  }
+
+  useEffect(() => {
+    if (!instant) return
+    const id = setTimeout(() => setInstant(false), 50)
+    return () => clearTimeout(id)
+  }, [instant])
+
+  return (
+    <section className="bg-black py-20 border-t border-white/10 overflow-hidden">
+      {/* Header row */}
+      <div
+        ref={header.ref}
+        className={`max-w-6xl mx-auto px-6 sm:px-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6 ${header.animClass}`}
+      >
+        <h2 className="text-4xl md:text-6xl text-white leading-tight">
+          What <span className="italic">builders</span> say
+        </h2>
+        <div className="flex flex-col items-start md:items-end gap-4">
+          <div className="flex items-center gap-2" style={{ fontFamily: SANS }}>
+            <span className="flex gap-0.5">
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star key={i} className="w-5 h-5 text-white fill-white" />
+              ))}
+            </span>
+            <span className="text-white text-sm">Clutch 5/5</span>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setIndex((i) => i - 1)}
+              aria-label="Previous testimonial"
+              className="w-12 h-12 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setIndex((i) => i + 1)}
+              aria-label="Next testimonial"
+              className="w-12 h-12 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Carousel */}
+      <div
+        ref={carousel.ref}
+        className={`mt-12 pl-6 sm:pl-8 ${carousel.animClass}`}
+        style={{ animationDelay: '0.2s' }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        <div
+          ref={trackRef}
+          className="flex gap-6"
+          onTransitionEnd={handleTransitionEnd}
+          style={{
+            transform: `translateX(-${index * step}px)`,
+            transition: instant ? 'none' : 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          {tripled.map((t, i) => (
+            <div
+              key={`${t.name}-${i}`}
+              className="shrink-0 w-[calc(100vw-48px)] md:w-[427.5px] liquid-glass bg-[#141414] rounded-[32px] md:rounded-[40px] px-6 md:pl-10 md:pr-16 py-8 flex flex-col"
+            >
+              <QuoteMark />
+              <p
+                className="mt-5 text-base text-white/90 leading-relaxed flex-1"
+                style={{ fontFamily: SANS }}
+              >
+                {t.quote}
+              </p>
+              <div className="mt-8 flex items-center gap-4" style={{ fontFamily: SANS }}>
+                <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                <div>
+                  <div className="font-semibold text-sm text-cream">{t.name}</div>
+                  <div className="text-sm text-gray-400">→ {t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
 /* Footer                             */
 /* ---------------------------------- */
 
+const FOOTER_LINKS = [
+  { label: 'Services', href: '#' },
+  { label: 'Work', href: '#' },
+  { label: 'About', href: '#' },
+]
+
+const FOOTER_SOCIALS = [
+  { label: 'x.com', href: 'https://x.com' },
+  { label: 'LinkedIn', href: 'https://linkedin.com' },
+]
+
 function Footer() {
+  const anim = useInViewAnimation<HTMLElement>()
   return (
     <footer
-      className="bg-black border-t border-white/10 py-12 px-8 md:px-28 flex flex-col sm:flex-row items-center justify-between gap-4"
+      ref={anim.ref}
+      className={`bg-black border-t border-white/10 ${anim.animClass}`}
       style={{ fontFamily: SANS }}
     >
-      <p className="text-gray-500 text-sm">© 2026 Lumora. All rights reserved.</p>
-      <div className="flex items-center gap-6">
-        {['Privacy', 'Terms', 'Contact'].map((link) => (
-          <a key={link} href="#" className="text-gray-500 text-sm hover:text-white transition-colors">
-            {link}
-          </a>
-        ))}
+      <div className="max-w-[1200px] mx-auto py-12 px-6 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+        <button className="self-start bg-white text-black rounded-full px-6 py-3 text-sm hover:bg-white/90 transition-colors cursor-pointer">
+          Start a chat
+        </button>
+
+        <div className="flex items-start gap-8">
+          <ArrowUpRight className="w-6 h-6 text-white" />
+          <div className="flex flex-col gap-3">
+            {FOOTER_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-base text-white hover:opacity-70 transition-opacity"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className="flex flex-col gap-3">
+            {FOOTER_SOCIALS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-base text-white hover:opacity-70 transition-opacity"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright bar */}
+      <div className="max-w-[1200px] mx-auto px-6 py-4 pb-28 flex items-center justify-between text-sm text-gray-500">
+        <span>Lumora Studio Limited</span>
+        <span>Austin, USA</span>
       </div>
     </footer>
+  )
+}
+
+function BottomNav() {
+  return (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="liquid-glass rounded-full px-8 py-2 flex items-center gap-6 shadow-[0_8px_32px_rgba(0,0,0,0.5),0_2px_8px_rgba(0,0,0,0.3)]">
+        <span className="italic text-2xl font-semibold text-white">L</span>
+        <button
+          className="bg-white text-black text-sm px-5 py-2.5 rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap"
+          style={{ fontFamily: SANS }}
+        >
+          Start a chat
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -583,7 +859,9 @@ export default function App() {
       <FeaturesSection />
       <SolutionSection />
       <CtaSection />
+      <TestimonialsSection />
       <Footer />
+      <BottomNav />
     </main>
   )
 }
