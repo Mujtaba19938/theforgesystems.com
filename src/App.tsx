@@ -1,0 +1,589 @@
+import { useRef, useState } from 'react'
+import { Menu, X, Check, ArrowRight } from 'lucide-react'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import type { MotionValue } from 'framer-motion'
+
+const NAV_LINKS = ['How It Works', 'Features', 'Pricing', 'Community']
+
+const STATS = [
+  '60+ Deep Sessions',
+  '12,000+ Creators',
+  '4.8 User Satisfaction',
+  'Intentional-First Design',
+]
+
+const SANS = 'system-ui, sans-serif'
+
+function SplineBackground() {
+  const ref = useRef<HTMLDivElement>(null)
+  // Mount the WebGL iframe only while its section is near the viewport, so
+  // the hero and CTA scenes never render simultaneously.
+  const inView = useInView(ref, { margin: '300px' })
+  return (
+    <div ref={ref} className="spline-container absolute top-0 left-0 w-full h-full z-[1]">
+      {inView && (
+        <iframe
+          src="https://my.spline.design/animatedbackgroundgradientforweb-jvJDeBWjMvShkjPKxPRUswLq"
+          frameBorder="0"
+          width="100%"
+          height="100%"
+          title="Animated gradient background"
+          className="w-full h-full"
+        />
+      )}
+    </div>
+  )
+}
+
+/* ---------------------------------- */
+/* Shared animation components        */
+/* ---------------------------------- */
+
+type Segment = { text: string; className?: string }
+
+function WordsPullUpMultiStyle({
+  segments,
+  className = '',
+  justify = 'justify-center',
+}: {
+  segments: Segment[]
+  className?: string
+  justify?: string
+}) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true })
+  const words = segments.flatMap((segment) =>
+    segment.text.split(' ').map((word) => ({ word, className: segment.className ?? '' })),
+  )
+  return (
+    <span ref={ref} className={`inline-flex flex-wrap ${justify} ${className}`}>
+      {words.map((w, i) => (
+        <motion.span
+          key={`${w.word}-${i}`}
+          className={`whitespace-pre ${w.className}`}
+          initial={{ y: 20, opacity: 0 }}
+          animate={inView ? { y: 0, opacity: 1 } : {}}
+          transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {i < words.length - 1 ? `${w.word} ` : w.word}
+        </motion.span>
+      ))}
+    </span>
+  )
+}
+
+function AnimatedLetter({
+  char,
+  progress,
+  range,
+}: {
+  char: string
+  progress: MotionValue<number>
+  range: [number, number]
+}) {
+  const opacity = useTransform(progress, range, [0.2, 1])
+  return <motion.span style={{ opacity }}>{char}</motion.span>
+}
+
+function ScrollRevealText({ text, className = '' }: { text: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.8', 'end 0.2'],
+  })
+  const chars = text.split('')
+  return (
+    <p ref={ref} className={className} style={{ fontFamily: SANS }}>
+      {chars.map((char, i) => {
+        const charProgress = i / chars.length
+        return (
+          <AnimatedLetter
+            key={i}
+            char={char}
+            progress={scrollYProgress}
+            range={[charProgress - 0.1, charProgress + 0.05]}
+          />
+        )
+      })}
+    </p>
+  )
+}
+
+/* ---------------------------------- */
+/* Section 1: Hero                    */
+/* ---------------------------------- */
+
+function HeroSection() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  return (
+    <section className="relative w-full h-screen overflow-hidden bg-black">
+      {/* Spline animated gradient background */}
+      <SplineBackground />
+
+      {/* Content layer */}
+      <div className="relative z-[2] flex flex-col h-full px-5 sm:px-8 md:px-12 py-5 sm:py-6">
+        {/* Navigation */}
+        <nav className="flex items-center justify-between">
+          <a href="#" className="text-white italic text-xl sm:text-2xl">
+            Lumora
+          </a>
+
+          {/* Desktop nav */}
+          <div
+            className="hidden md:flex items-center gap-1 liquid-glass rounded-full p-1.5 pl-3"
+            style={{ fontFamily: SANS }}
+          >
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link}
+                href="#"
+                className="px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors"
+              >
+                {link}
+              </a>
+            ))}
+            <button className="ml-2 bg-white text-black text-sm px-4 py-2 rounded-full hover:bg-white/90 transition-colors cursor-pointer">
+              Get Started
+            </button>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            className="md:hidden liquid-glass rounded-full p-3 text-white cursor-pointer z-[60]"
+          >
+            <span className="relative block w-5 h-5">
+              <Menu
+                className={`absolute inset-0 w-5 h-5 transition-all duration-300 ${
+                  menuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+                }`}
+              />
+              <X
+                className={`absolute inset-0 w-5 h-5 transition-all duration-300 ${
+                  menuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+                }`}
+              />
+            </span>
+          </button>
+        </nav>
+
+        {/* Hero content */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center">
+          <div className="liquid-glass rounded-full px-4 py-1.5 text-xs sm:text-sm text-white">
+            Over 10,000 minds already finding their clarity
+          </div>
+
+          <h1 className="mt-6 max-w-4xl text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] text-white">
+            We build websites, apps,
+            <br />
+            and platforms user-first,
+            <br />
+            outcome-driven.
+          </h1>
+
+          <p
+            className="mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-white/85"
+            style={{ fontFamily: SANS }}
+          >
+            Rise above the chaos of pings, infinite scrolling, and relentless demands.
+            Discover how to protect your presence and create with intention.
+          </p>
+
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="mt-8 w-full max-w-[320px] sm:max-w-sm liquid-glass rounded-full flex items-center p-1.5 pl-5"
+            style={{ fontFamily: SANS }}
+          >
+            <input
+              type="email"
+              placeholder="Your Best Email"
+              className="hero-input flex-1 min-w-0 bg-transparent outline-none text-sm text-white"
+            />
+            <button
+              type="submit"
+              className="text-sm px-4 py-2.5 rounded-full whitespace-nowrap cursor-pointer bg-white text-black hover:bg-white/90 transition-colors"
+            >
+              Get Early Access
+            </button>
+          </form>
+        </div>
+
+        {/* Bottom stats */}
+        <div
+          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-white/70 text-xs sm:text-sm"
+          style={{ fontFamily: SANS }}
+        >
+          {STATS.map((stat, i) => (
+            <span key={stat} className="flex items-center gap-4">
+              {i > 0 && <span className="hidden sm:inline text-white/30">|</span>}
+              {stat}
+            </span>
+          ))}
+        </div>
+
+        {/* Mobile menu overlay */}
+        <div
+          className={`fixed inset-0 z-50 md:hidden ${
+            menuOpen ? 'pointer-events-auto' : 'pointer-events-none'
+          }`}
+        >
+          <div
+            className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${
+              menuOpen ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={() => setMenuOpen(false)}
+          />
+          <div className="relative h-full flex flex-col items-center justify-center gap-8">
+            {NAV_LINKS.map((link, i) => (
+              <a
+                key={link}
+                href="#"
+                onClick={() => setMenuOpen(false)}
+                className={`text-white text-3xl transition-all duration-500 ${
+                  menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+                style={{
+                  transitionTimingFunction: 'cubic-bezier(0.4,0,0.2,1)',
+                  transitionDelay: menuOpen ? `${100 + i * 50}ms` : '0ms',
+                }}
+              >
+                {link}
+              </a>
+            ))}
+            <button
+              onClick={() => setMenuOpen(false)}
+              className={`mt-4 bg-white text-black px-6 py-3 rounded-full text-base cursor-pointer transition-all duration-500 ${
+                menuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+              }`}
+              style={{
+                fontFamily: SANS,
+                transitionTimingFunction: 'cubic-bezier(0.4,0,0.2,1)',
+                transitionDelay: menuOpen ? '300ms' : '0ms',
+              }}
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Section 2: About                   */
+/* ---------------------------------- */
+
+const ABOUT_PARAGRAPH =
+  "Over the last year or so, I've built out multiple websites for clients across different industries, from small business sites to more complex web apps. Along the way I've picked up a lot about what actually makes a project run smoothly, from the first client call to the final handoff. It's been a solid stretch of learning by doing, one project at a time."
+
+function AboutSection() {
+  return (
+    <section className="bg-black px-4 sm:px-8 py-16 sm:py-24">
+      <div className="liquid-glass bg-[#101010] rounded-3xl max-w-6xl mx-auto text-center px-6 sm:px-12 py-16 sm:py-24">
+        <div
+          className="text-primary text-[10px] sm:text-xs uppercase tracking-[0.25em]"
+          style={{ fontFamily: SANS }}
+        >
+          About me
+        </div>
+
+        <h2 className="mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-3xl mx-auto leading-[0.95] sm:leading-[0.9] text-white">
+          <WordsPullUpMultiStyle
+            segments={[
+              { text: "I'm Mujtaba Khanani,", className: 'font-normal' },
+              { text: 'a passionate web developer.', className: 'italic' },
+              {
+                text: 'I have skills in web design and development with React, Python, and Node.js for the backend.',
+                className: 'font-normal',
+              },
+            ]}
+          />
+        </h2>
+
+        <ScrollRevealText
+          text={ABOUT_PARAGRAPH}
+          className="mt-10 sm:mt-14 max-w-2xl mx-auto text-[#DEDBC8] text-xs sm:text-sm md:text-base leading-relaxed"
+        />
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Section 3: Features                */
+/* ---------------------------------- */
+
+const FEATURE_VIDEO =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_133058_0504132a-0cf3-4450-a370-8ea3b05c95d4.mp4'
+
+const FEATURE_CARDS = [
+  {
+    number: '01',
+    title: 'Project Storyboard.',
+    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85',
+    items: [
+      'Map every scene before you shoot',
+      'Drag-and-drop shot sequencing',
+      'Shared boards for your whole crew',
+      'Full version history, always',
+    ],
+  },
+  {
+    number: '02',
+    title: 'Smart Critiques.',
+    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85',
+    items: [
+      'Instant AI analysis on every cut',
+      'Creative notes, right where you work',
+      'Integrates with the tools you love',
+    ],
+  },
+  {
+    number: '03',
+    title: 'Immersion Capsule.',
+    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85',
+    items: [
+      'Silences every notification',
+      'Ambient soundscapes for deep work',
+      'Syncs with your daily schedule',
+    ],
+  },
+]
+
+function FeatureCardShell({
+  index,
+  className = '',
+  children,
+}: {
+  index: number
+  className?: string
+  children: React.ReactNode
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-100px' })
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={inView ? { scale: 1, opacity: 1 } : {}}
+      transition={{ delay: index * 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function FeaturesSection() {
+  return (
+    <section className="relative min-h-screen bg-black overflow-hidden">
+      <div className="bg-noise absolute inset-0 opacity-[0.15] pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28">
+        {/* Header */}
+        <div className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal leading-tight">
+          <WordsPullUpMultiStyle
+            className="w-full"
+            segments={[{ text: 'Studio-grade workflows for visionary creators.', className: 'text-cream' }]}
+          />
+          <WordsPullUpMultiStyle
+            className="w-full"
+            segments={[{ text: 'Built for pure vision. Powered by art.', className: 'text-gray-500' }]}
+          />
+        </div>
+
+        {/* Card grid */}
+        <div className="mt-14 sm:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-2 md:gap-1 lg:h-[480px]">
+          {/* Card 1 — video */}
+          <FeatureCardShell
+            index={0}
+            className="relative rounded-2xl overflow-hidden h-64 md:h-80 lg:h-full"
+          >
+            <video
+              src={FEATURE_VIDEO}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent" />
+            <p className="absolute bottom-5 left-5 right-5 text-lg sm:text-xl text-[#E1E0CC]">
+              Your creative canvas.
+            </p>
+          </FeatureCardShell>
+
+          {/* Cards 2–4 — checklists */}
+          {FEATURE_CARDS.map((card, i) => (
+            <FeatureCardShell
+              key={card.number}
+              index={i + 1}
+              className="liquid-glass bg-[#141414] rounded-2xl p-5 sm:p-6 flex flex-col"
+            >
+              <img
+                src={card.icon}
+                alt=""
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover"
+              />
+              <h3 className="mt-5 text-xl sm:text-2xl text-cream">
+                {card.title}{' '}
+                <sup className="text-xs text-gray-500" style={{ fontFamily: SANS }}>
+                  ({card.number})
+                </sup>
+              </h3>
+              <ul className="mt-5 space-y-3 flex-1" style={{ fontFamily: SANS }}>
+                {card.items.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-400">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#"
+                className="mt-8 inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors group"
+                style={{ fontFamily: SANS }}
+              >
+                Learn more
+                <ArrowRight className="w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" />
+              </a>
+            </FeatureCardShell>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Section 4: Solution                */
+/* ---------------------------------- */
+
+const SOLUTION_FEATURES = [
+  {
+    title: 'Curated Feed',
+    description: 'A feed shaped by what matters to you — not what an algorithm wants you to see.',
+  },
+  {
+    title: 'Writer Tools',
+    description: 'A focused editor with everything you need to draft, refine, and publish.',
+  },
+  {
+    title: 'Community',
+    description: 'Connect with readers and writers who care about the same ideas you do.',
+  },
+  {
+    title: 'Distribution',
+    description: 'Reach your audience everywhere — newsletters, RSS, and social, built in.',
+  },
+]
+
+function SolutionSection() {
+  return (
+    <section className="bg-black py-32 md:py-44 border-t border-white/10 px-6 sm:px-8 md:px-28">
+      <div className="max-w-6xl mx-auto">
+        <div
+          className="text-xs tracking-[3px] uppercase text-gray-500"
+          style={{ fontFamily: SANS }}
+        >
+          Solution
+        </div>
+
+        <h2 className="mt-6 text-4xl md:text-6xl text-white leading-tight max-w-3xl">
+          <WordsPullUpMultiStyle
+            justify="justify-start"
+            segments={[
+              { text: 'The platform for', className: 'font-normal' },
+              { text: 'meaningful', className: 'italic' },
+              { text: 'content', className: 'font-normal' },
+            ]}
+          />
+        </h2>
+
+        <div className="mt-16 md:mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {SOLUTION_FEATURES.map((feature) => (
+            <div key={feature.title} style={{ fontFamily: SANS }}>
+              <h3 className="font-semibold text-base text-cream">{feature.title}</h3>
+              <p className="mt-2 text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Section 5: CTA                     */
+/* ---------------------------------- */
+
+function CtaSection() {
+  return (
+    <section className="relative bg-black py-32 md:py-44 border-t border-white/10 overflow-hidden">
+      <SplineBackground />
+
+      <div className="relative z-10 flex flex-col items-center text-center px-6">
+        {/* Concentric circles logo */}
+        <div className="w-10 h-10 rounded-full border border-white/70 flex items-center justify-center">
+          <div className="w-5 h-5 rounded-full border border-white/70" />
+        </div>
+
+        <h2 className="mt-8 text-4xl md:text-6xl text-white italic">Start Your Journey</h2>
+
+        <p
+          className="mt-4 max-w-md text-sm sm:text-base text-gray-300 leading-relaxed"
+          style={{ fontFamily: SANS }}
+        >
+          Your next customer is online. Let's make sure they find you.
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row items-center gap-4" style={{ fontFamily: SANS }}>
+          <button className="bg-white text-black rounded-lg px-8 py-3.5 text-sm hover:bg-white/90 transition-colors cursor-pointer">
+            Subscribe Now
+          </button>
+          <button className="liquid-glass rounded-lg px-8 py-3.5 text-sm text-white hover:text-white/80 transition-colors cursor-pointer">
+            Start Writing
+          </button>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Footer                             */
+/* ---------------------------------- */
+
+function Footer() {
+  return (
+    <footer
+      className="bg-black border-t border-white/10 py-12 px-8 md:px-28 flex flex-col sm:flex-row items-center justify-between gap-4"
+      style={{ fontFamily: SANS }}
+    >
+      <p className="text-gray-500 text-sm">© 2026 Lumora. All rights reserved.</p>
+      <div className="flex items-center gap-6">
+        {['Privacy', 'Terms', 'Contact'].map((link) => (
+          <a key={link} href="#" className="text-gray-500 text-sm hover:text-white transition-colors">
+            {link}
+          </a>
+        ))}
+      </div>
+    </footer>
+  )
+}
+
+export default function App() {
+  return (
+    <main className="bg-black">
+      <HeroSection />
+      <AboutSection />
+      <FeaturesSection />
+      <SolutionSection />
+      <CtaSection />
+      <Footer />
+    </main>
+  )
+}
