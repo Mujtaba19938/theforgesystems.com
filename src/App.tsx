@@ -15,29 +15,44 @@ import type { MotionValue } from 'framer-motion'
 const NAV_LINKS = ['How It Works', 'Features', 'Pricing', 'Community']
 
 const STATS = [
-  '60+ Deep Sessions',
-  '12,000+ Creators',
+  'Web & Mobile Experts',
+  '15+ Successful Deployments',
   '4.8 User Satisfaction',
   'Intentional-First Design',
 ]
 
 const SANS = 'system-ui, sans-serif'
 
-function SplineBackground() {
+const AURA_SRCDOC = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #000; }
+    .aura { position: absolute; inset: 0; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div class="aura" data-us-project="NMlvqnkICwYYJ6lYb064"></div>
+  <script type="text/javascript">
+    !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+  </script>
+</body>
+</html>`
+
+function AuraBackground() {
   const ref = useRef<HTMLDivElement>(null)
   // Mount the WebGL iframe only while its section is near the viewport, so
   // the hero and CTA scenes never render simultaneously.
   const inView = useInView(ref, { margin: '300px' })
   return (
-    <div ref={ref} className="spline-container absolute top-0 left-0 w-full h-full z-[1]">
+    <div ref={ref} className="absolute top-0 left-0 w-full h-full z-[1]">
       {inView && (
         <iframe
-          src="https://my.spline.design/animatedbackgroundgradientforweb-jvJDeBWjMvShkjPKxPRUswLq"
-          frameBorder="0"
-          width="100%"
-          height="100%"
-          title="Animated gradient background"
-          className="w-full h-full"
+          title="Animated aura background"
+          srcDoc={AURA_SRCDOC}
+          className="w-full h-full border-0"
+          sandbox="allow-scripts"
         />
       )}
     </div>
@@ -148,8 +163,8 @@ function HeroSection() {
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-black">
-      {/* Spline animated gradient background */}
-      <SplineBackground />
+      {/* Animated aura background */}
+      <AuraBackground />
 
       {/* Content layer */}
       <div className="relative z-[2] flex flex-col h-full px-5 sm:px-8 md:px-12 py-5 sm:py-6">
@@ -553,7 +568,7 @@ function SolutionSection() {
 function CtaSection() {
   return (
     <section className="relative bg-black py-32 md:py-44 border-t border-white/10 overflow-hidden">
-      <SplineBackground />
+      <AuraBackground />
 
       <div className="relative z-10 flex flex-col items-center text-center px-6">
         {/* Concentric circles logo */}
