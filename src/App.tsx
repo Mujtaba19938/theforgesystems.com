@@ -789,18 +789,22 @@ function TestimonialsSection() {
 /* ---------------------------------- */
 
 const FOOTER_LINKS = [
-  { label: 'Services', href: '#' },
-  { label: 'Work', href: '#' },
-  { label: 'About', href: '#' },
+  { label: 'Services', href: '#', external: false },
+  { label: 'Work', href: 'https://portfolio-mzrs.vercel.app/', external: true },
+  { label: 'About', href: '#', external: false },
 ]
 
 const FOOTER_SOCIALS = [
   { label: 'x.com', href: 'https://x.com' },
-  { label: 'LinkedIn', href: 'https://linkedin.com' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mujtaba-khanani' },
+  { label: 'GitHub', href: 'https://github.com/Mujtaba19938' },
 ]
 
 function Footer() {
   const anim = useInViewAnimation<HTMLElement>()
+  const [arrowY, setArrowY] = useState(0)
+  const moveArrow = (e: React.MouseEvent<HTMLAnchorElement>) =>
+    setArrowY(e.currentTarget.offsetTop)
   return (
     <footer
       ref={anim.ref}
@@ -808,30 +812,42 @@ function Footer() {
       style={{ fontFamily: SANS }}
     >
       <div className="max-w-[1200px] mx-auto py-12 px-6 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-        <button className="self-start bg-white text-black rounded-full px-6 py-3 text-sm hover:bg-white/90 transition-colors cursor-pointer">
+        <a
+          href="https://wa.me/923302921404"
+          target="_blank"
+          rel="noreferrer"
+          className="self-start bg-white text-black rounded-full px-6 py-3 text-sm hover:bg-white/90 transition-colors"
+        >
           Start a chat
-        </button>
+        </a>
 
-        <div className="flex items-start gap-8">
-          <ArrowUpRight className="w-6 h-6 text-white" />
-          <div className="flex flex-col gap-3">
+        <div className="flex items-start gap-8" onMouseLeave={() => setArrowY(0)}>
+          <ArrowUpRight
+            className="w-6 h-6 text-white transition-transform duration-300 ease-out"
+            style={{ transform: `translateY(${arrowY}px)` }}
+          />
+          <div className="relative flex flex-col gap-3">
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noreferrer' : undefined}
+                onMouseEnter={moveArrow}
                 className="text-base text-white hover:opacity-70 transition-opacity"
               >
                 {link.label}
               </a>
             ))}
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="relative flex flex-col gap-3">
             {FOOTER_SOCIALS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noreferrer"
+                onMouseEnter={moveArrow}
                 className="text-base text-white hover:opacity-70 transition-opacity"
               >
                 {link.label}
