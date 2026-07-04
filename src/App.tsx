@@ -878,8 +878,8 @@ function Footer() {
 
       {/* Copyright bar */}
       <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between text-sm text-gray-500">
-        <span>Lumora Studio Limited</span>
-        <span>Austin, USA</span>
+        <span>ForgeSystems</span>
+        <span>Dubai, UAE</span>
       </div>
     </footer>
   )
