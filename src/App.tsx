@@ -710,7 +710,7 @@ function TestimonialsSection() {
         className={`max-w-6xl mx-auto px-6 sm:px-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6 ${header.animClass}`}
       >
         <h2 className="text-4xl md:text-6xl text-white leading-tight">
-          What <span className="italic">builders</span> say
+          What <span className="italic">clients</span> say
         </h2>
         <div className="flex flex-col items-start md:items-end gap-4">
           <div className="flex items-center gap-2" style={{ fontFamily: SANS }}>
