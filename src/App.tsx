@@ -12,7 +12,12 @@ import {
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { MotionValue } from 'framer-motion'
 
-const NAV_LINKS = ['How It Works', 'Features', 'Pricing', 'Community']
+const NAV_LINKS = [
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Solutions', href: '#solutions' },
+  { label: 'Testimonials', href: '#testimonials' },
+]
 
 const STATS = [
   'Web & Mobile Experts',
@@ -181,11 +186,11 @@ function HeroSection() {
           >
             {NAV_LINKS.map((link) => (
               <a
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 className="px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors"
               >
-                {link}
+                {link.label}
               </a>
             ))}
             <button className="ml-2 bg-white text-black text-sm px-4 py-2 rounded-full hover:bg-white/90 transition-colors cursor-pointer">
@@ -283,8 +288,8 @@ function HeroSection() {
           <div className="relative h-full flex flex-col items-center justify-center gap-8">
             {NAV_LINKS.map((link, i) => (
               <a
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`text-white text-3xl transition-all duration-500 ${
                   menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -294,7 +299,7 @@ function HeroSection() {
                   transitionDelay: menuOpen ? `${100 + i * 50}ms` : '0ms',
                 }}
               >
-                {link}
+                {link.label}
               </a>
             ))}
             <button
@@ -322,26 +327,29 @@ function HeroSection() {
 /* ---------------------------------- */
 
 const ABOUT_PARAGRAPH =
-  "Over the last year or so, I've built out multiple websites for clients across different industries, from small business sites to more complex web apps. Along the way I've picked up a lot about what actually makes a project run smoothly, from the first client call to the final handoff. It's been a solid stretch of learning by doing, one project at a time."
+  'Every project begins with understanding your business, not just your requirements. From high-converting marketing websites and custom web applications to AI automation and business software, we partner with ambitious brands to build reliable, high-performance digital products that are designed to scale alongside their success.'
 
 function AboutSection() {
   return (
-    <section className="bg-black px-4 sm:px-8 py-16 sm:py-24">
+    <section id="about" className="bg-black px-4 sm:px-8 py-16 sm:py-24">
       <div className="liquid-glass bg-[#101010] rounded-3xl max-w-6xl mx-auto text-center px-6 sm:px-12 py-16 sm:py-24">
         <div
           className="text-primary text-[10px] sm:text-xs uppercase tracking-[0.25em]"
           style={{ fontFamily: SANS }}
         >
-          About me
+          About us
         </div>
 
         <h2 className="mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-3xl mx-auto leading-[0.95] sm:leading-[0.9] text-white">
           <WordsPullUpMultiStyle
             segments={[
-              { text: "I'm Mujtaba Khanani,", className: 'font-normal' },
-              { text: 'a passionate web developer.', className: 'italic' },
               {
-                text: 'I have skills in web design and development with React, Python, and Node.js for the backend.',
+                text: 'At ForgeSystems, we craft digital experiences where',
+                className: 'font-normal',
+              },
+              { text: 'timeless design meets modern engineering.', className: 'italic' },
+              {
+                text: 'From premium websites and custom software to AI-powered solutions, every product we build is engineered for performance, scalability, and lasting business impact.',
                 className: 'font-normal',
               },
             ]}
@@ -424,7 +432,7 @@ function FeatureCardShell({
 
 function FeaturesSection() {
   return (
-    <section className="relative min-h-screen bg-black overflow-hidden">
+    <section id="services" className="relative min-h-screen bg-black overflow-hidden">
       <div className="bg-noise absolute inset-0 opacity-[0.15] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28">
@@ -432,11 +440,16 @@ function FeaturesSection() {
         <div className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal leading-tight">
           <WordsPullUpMultiStyle
             className="w-full"
-            segments={[{ text: 'Studio-grade workflows for visionary creators.', className: 'text-cream' }]}
+            segments={[{ text: 'Services we offer', className: 'text-cream' }]}
           />
           <WordsPullUpMultiStyle
             className="w-full"
-            segments={[{ text: 'Built for pure vision. Powered by art.', className: 'text-gray-500' }]}
+            segments={[
+              {
+                text: 'Everything you need to establish, automate, and grow your digital presence.',
+                className: 'text-gray-500',
+              },
+            ]}
           />
         </div>
 
@@ -509,26 +522,33 @@ function FeaturesSection() {
 
 const SOLUTION_FEATURES = [
   {
-    title: 'Curated Feed',
-    description: 'A feed shaped by what matters to you — not what an algorithm wants you to see.',
+    title: 'Premium Websites',
+    description:
+      'We design and develop fast, responsive websites that strengthen your brand, engage visitors, and convert them into customers.',
   },
   {
-    title: 'Writer Tools',
-    description: 'A focused editor with everything you need to draft, refine, and publish.',
+    title: 'AI Solutions',
+    description:
+      'Automate repetitive tasks, improve customer experiences, and streamline operations with intelligent AI-powered systems.',
   },
   {
-    title: 'Community',
-    description: 'Connect with readers and writers who care about the same ideas you do.',
+    title: 'Custom Software',
+    description:
+      'From internal dashboards to full-scale web applications, we build secure, scalable software tailored to your business.',
   },
   {
-    title: 'Distribution',
-    description: 'Reach your audience everywhere — newsletters, RSS, and social, built in.',
+    title: 'Ongoing Partnership',
+    description:
+      "We don't disappear after launch. From maintenance and optimization to future enhancements, we're invested in your long-term success.",
   },
 ]
 
 function SolutionSection() {
   return (
-    <section className="bg-black py-32 md:py-44 border-t border-white/10 px-6 sm:px-8 md:px-28">
+    <section
+      id="solutions"
+      className="bg-black py-32 md:py-44 border-t border-white/10 px-6 sm:px-8 md:px-28"
+    >
       <div className="max-w-6xl mx-auto">
         <div
           className="text-xs tracking-[3px] uppercase text-gray-500"
@@ -541,9 +561,8 @@ function SolutionSection() {
           <WordsPullUpMultiStyle
             justify="justify-start"
             segments={[
-              { text: 'The platform for', className: 'font-normal' },
-              { text: 'meaningful', className: 'italic' },
-              { text: 'content', className: 'font-normal' },
+              { text: 'The platform for building', className: 'font-normal' },
+              { text: 'your online presence.', className: 'italic' },
             ]}
           />
         </h2>
@@ -615,14 +634,14 @@ const TESTIMONIALS = [
     role: 'Founder, Nexgate',
     avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=96',
     quote:
-      'Mujtaba led the creation of our best fundraising deck to date! Clear, confident, and beautifully designed.',
+      'ForgeSystems led the creation of our best fundraising deck to date! Clear, confident, and beautifully designed.',
   },
   {
     name: 'James Mitchell',
     role: 'VP Product, LaunchPad',
     avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=96',
     quote:
-      'Working with Mujtaba transformed our product vision into something users genuinely love.',
+      'Working with ForgeSystems transformed our product vision into something users genuinely love.',
   },
   {
     name: 'Rachel Foster',
@@ -703,7 +722,7 @@ function TestimonialsSection() {
   }, [instant])
 
   return (
-    <section className="bg-black py-20 border-t border-white/10 overflow-hidden">
+    <section id="testimonials" className="bg-black py-20 border-t border-white/10 overflow-hidden">
       {/* Header row */}
       <div
         ref={header.ref}
@@ -789,9 +808,9 @@ function TestimonialsSection() {
 /* ---------------------------------- */
 
 const FOOTER_LINKS = [
-  { label: 'Services', href: '#', external: false },
+  { label: 'Services', href: '#services', external: false },
   { label: 'Work', href: 'https://portfolio-mzrs.vercel.app/', external: true },
-  { label: 'About', href: '#', external: false },
+  { label: 'About', href: '#about', external: false },
 ]
 
 const FOOTER_SOCIALS = [
