@@ -176,7 +176,7 @@ function HeroSection() {
         {/* Navigation */}
         <nav className="flex items-center justify-between">
           <a href="#" className="text-white italic text-xl sm:text-2xl">
-            Lumora
+            ForgeSystems
           </a>
 
           {/* Desktop nav */}
