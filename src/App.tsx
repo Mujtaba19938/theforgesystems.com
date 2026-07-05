@@ -375,33 +375,35 @@ const FEATURE_VIDEO =
 const FEATURE_CARDS = [
   {
     number: '01',
-    title: 'Project Storyboard.',
+    title: 'Custom Websites.',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85',
     items: [
-      'Map every scene before you shoot',
-      'Drag-and-drop shot sequencing',
-      'Shared boards for your whole crew',
-      'Full version history, always',
+      'Responsive business websites',
+      'Landing pages that convert',
+      'E-commerce & online stores',
+      'Optimized for speed & SEO',
     ],
   },
   {
     number: '02',
-    title: 'Smart Critiques.',
+    title: 'AI Automation.',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85',
     items: [
-      'Instant AI analysis on every cut',
-      'Creative notes, right where you work',
-      'Integrates with the tools you love',
+      'AI chatbots & virtual assistants',
+      'Workflow automation',
+      'Intelligent business tools',
+      'Seamless API integrations',
     ],
   },
   {
     number: '03',
-    title: 'Immersion Capsule.',
+    title: 'Custom Software.',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85',
     items: [
-      'Silences every notification',
-      'Ambient soundscapes for deep work',
-      'Syncs with your daily schedule',
+      'Dashboards & client portals',
+      'CRM & ERP solutions',
+      'Secure, scalable web applications',
+      'Built around your business',
     ],
   },
 ]
