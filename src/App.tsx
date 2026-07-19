@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import {
   Menu,
   X,
@@ -11,6 +11,8 @@ import {
 } from 'lucide-react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { MotionValue } from 'framer-motion'
+const Shader3 = lazy(() => import('./Shader3').then((m) => ({ default: m.Shader3 })))
+import { CtaSection } from './components/CtaSection'
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -28,37 +30,17 @@ const STATS = [
 
 const SANS = 'system-ui, sans-serif'
 
-const AURA_SRCDOC = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <style>
-    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #000; }
-    .aura { position: absolute; inset: 0; width: 100%; height: 100%; }
-  </style>
-</head>
-<body>
-  <div class="aura" data-us-project="NMlvqnkICwYYJ6lYb064"></div>
-  <script type="text/javascript">
-    !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
-  </script>
-</body>
-</html>`
-
-function AuraBackground() {
+function HeroShaderBackground() {
   const ref = useRef<HTMLDivElement>(null)
-  // Mount the WebGL iframe only while its section is near the viewport, so
-  // the hero and CTA scenes never render simultaneously.
+  // Mount the WebGL canvas only while the hero is near the viewport, so it
+  // never renders at the same time as the CTA background scene.
   const inView = useInView(ref, { margin: '300px' })
   return (
     <div ref={ref} className="absolute top-0 left-0 w-full h-full z-[1]">
       {inView && (
-        <iframe
-          title="Animated aura background"
-          srcDoc={AURA_SRCDOC}
-          className="w-full h-full border-0"
-          sandbox="allow-scripts"
-        />
+        <Suspense fallback={null}>
+          <Shader3 />
+        </Suspense>
       )}
     </div>
   )
@@ -168,8 +150,8 @@ function HeroSection() {
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-black">
-      {/* Animated aura background */}
-      <AuraBackground />
+      {/* Animated shader background */}
+      <HeroShaderBackground />
 
       {/* Content layer */}
       <div className="relative z-[2] flex flex-col h-full px-5 sm:px-8 md:px-12 py-5 sm:py-6">
@@ -181,7 +163,7 @@ function HeroSection() {
 
           {/* Desktop nav */}
           <div
-            className="hidden md:flex items-center gap-1 liquid-glass rounded-full p-1.5 pl-3"
+            className="hidden md:flex items-center gap-1 liquid-glass-legacy rounded-full p-1.5 pl-3"
             style={{ fontFamily: SANS }}
           >
             {NAV_LINKS.map((link) => (
@@ -202,7 +184,7 @@ function HeroSection() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            className="md:hidden liquid-glass rounded-full p-3 text-white cursor-pointer z-[60]"
+            className="md:hidden liquid-glass-legacy rounded-full p-3 text-white cursor-pointer z-[60]"
           >
             <span className="relative block w-5 h-5">
               <Menu
@@ -221,7 +203,7 @@ function HeroSection() {
 
         {/* Hero content */}
         <div className="flex-1 flex flex-col items-center justify-center text-center">
-          <div className="liquid-glass rounded-full px-4 py-1.5 text-xs sm:text-sm text-white">
+          <div className="liquid-glass-legacy rounded-full px-4 py-1.5 text-xs sm:text-sm text-white">
             Over 10,000 minds already finding their clarity
           </div>
 
@@ -241,23 +223,6 @@ function HeroSection() {
             Discover how to protect your presence and create with intention.
           </p>
 
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="mt-8 w-full max-w-[320px] sm:max-w-sm liquid-glass rounded-full flex items-center p-1.5 pl-5"
-            style={{ fontFamily: SANS }}
-          >
-            <input
-              type="email"
-              placeholder="Your Best Email"
-              className="hero-input flex-1 min-w-0 bg-transparent outline-none text-sm text-white"
-            />
-            <button
-              type="submit"
-              className="text-sm px-4 py-2.5 rounded-full whitespace-nowrap cursor-pointer bg-white text-black hover:bg-white/90 transition-colors"
-            >
-              Get Early Access
-            </button>
-          </form>
         </div>
 
         {/* Bottom stats */}
@@ -332,7 +297,7 @@ const ABOUT_PARAGRAPH =
 function AboutSection() {
   return (
     <section id="about" className="bg-black px-4 sm:px-8 py-16 sm:py-24">
-      <div className="liquid-glass bg-[#101010] rounded-3xl max-w-6xl mx-auto text-center px-6 sm:px-12 py-16 sm:py-24">
+      <div className="liquid-glass-legacy bg-[#101010] rounded-3xl max-w-6xl mx-auto text-center px-6 sm:px-12 py-16 sm:py-24">
         <div
           className="text-primary text-[10px] sm:text-xs uppercase tracking-[0.25em]"
           style={{ fontFamily: SANS }}
@@ -481,7 +446,7 @@ function FeaturesSection() {
             <FeatureCardShell
               key={card.number}
               index={i + 1}
-              className="liquid-glass bg-[#141414] rounded-2xl p-5 sm:p-6 flex flex-col"
+              className="liquid-glass-legacy bg-[#141414] rounded-2xl p-5 sm:p-6 flex flex-col"
             >
               <img
                 src={card.icon}
@@ -583,41 +548,9 @@ function SolutionSection() {
 }
 
 /* ---------------------------------- */
-/* Section 5: CTA                     */
+/* Section 5: CTA — imported from     */
+/*   ./components/CtaSection           */
 /* ---------------------------------- */
-
-function CtaSection() {
-  return (
-    <section className="relative bg-black py-32 md:py-44 border-t border-white/10 overflow-hidden">
-      <AuraBackground />
-
-      <div className="relative z-10 flex flex-col items-center text-center px-6">
-        {/* Concentric circles logo */}
-        <div className="w-10 h-10 rounded-full border border-white/70 flex items-center justify-center">
-          <div className="w-5 h-5 rounded-full border border-white/70" />
-        </div>
-
-        <h2 className="mt-8 text-4xl md:text-6xl text-white italic">Start Your Journey</h2>
-
-        <p
-          className="mt-4 max-w-md text-sm sm:text-base text-gray-300 leading-relaxed"
-          style={{ fontFamily: SANS }}
-        >
-          Your next customer is online. Let's make sure they find you.
-        </p>
-
-        <div className="mt-10 flex flex-col sm:flex-row items-center gap-4" style={{ fontFamily: SANS }}>
-          <button className="bg-white text-black rounded-lg px-8 py-3.5 text-sm hover:bg-white/90 transition-colors cursor-pointer">
-            Subscribe Now
-          </button>
-          <button className="liquid-glass rounded-lg px-8 py-3.5 text-sm text-white hover:text-white/80 transition-colors cursor-pointer">
-            Start Writing
-          </button>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 /* ---------------------------------- */
 /* Section 6: Testimonials            */
@@ -781,7 +714,7 @@ function TestimonialsSection() {
           {tripled.map((t, i) => (
             <div
               key={`${t.name}-${i}`}
-              className="shrink-0 w-[calc(100vw-48px)] md:w-[427.5px] liquid-glass bg-[#141414] rounded-[32px] md:rounded-[40px] px-6 md:pl-10 md:pr-16 py-8 flex flex-col"
+              className="shrink-0 w-[calc(100vw-48px)] md:w-[427.5px] liquid-glass-legacy bg-[#141414] rounded-[32px] md:rounded-[40px] px-6 md:pl-10 md:pr-16 py-8 flex flex-col"
             >
               <QuoteMark />
               <p
