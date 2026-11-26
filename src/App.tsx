@@ -324,12 +324,12 @@ function HeroSection() {
 /* ---------------------------------- */
 
 const ABOUT_PARAGRAPH =
-  'Every project begins with understanding your business, not just your requirements. From high-converting marketing websites and custom web applications to AI automation and business software, we partner with ambitious brands to build reliable, high-performance digital products that are designed to scale alongside their success.'
+  'We start with your business, not a feature list. Then we build the smallest product that proves your idea, and grow it with you from there.'
 
 function AboutSection() {
   return (
-    <section id="about" className="bg-black px-4 sm:px-8 py-16 sm:py-24">
-      <div className="liquid-glass-legacy bg-[#101010] rounded-3xl max-w-6xl mx-auto text-center px-6 sm:px-12 py-16 sm:py-24">
+    <section id="about" className="bg-black px-4 sm:px-8 py-12 sm:py-16">
+      <div className="liquid-glass-legacy bg-[#101010] rounded-3xl max-w-6xl mx-auto text-center px-6 sm:px-12 py-12 sm:py-16">
         <div
           className="text-primary text-[10px] sm:text-xs uppercase tracking-[0.25em]"
           style={{ fontFamily: SANS }}
@@ -337,25 +337,18 @@ function AboutSection() {
           About us
         </div>
 
-        <h2 className="mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-3xl mx-auto leading-[0.95] sm:leading-[0.9] text-white">
+        <h2 className="mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl max-w-3xl mx-auto leading-[1.05] text-white">
           <WordsPullUpMultiStyle
             segments={[
-              {
-                text: 'At ForgeSystems, we craft digital experiences where',
-                className: 'font-normal',
-              },
-              { text: 'timeless design meets modern engineering.', className: 'italic' },
-              {
-                text: 'From premium websites and custom software to AI-powered solutions, every product we build is engineered for performance, scalability, and lasting business impact.',
-                className: 'font-normal',
-              },
+              { text: 'A small studio that ships', className: 'font-normal' },
+              { text: 'real products, fast.', className: 'italic' },
             ]}
           />
         </h2>
 
         <ScrollRevealText
           text={ABOUT_PARAGRAPH}
-          className="mt-10 sm:mt-14 max-w-2xl mx-auto text-[#DEDBC8] text-xs sm:text-sm md:text-base leading-relaxed"
+          className="mt-6 sm:mt-8 max-w-xl mx-auto text-[#DEDBC8] text-sm md:text-base leading-relaxed"
         />
       </div>
     </section>
