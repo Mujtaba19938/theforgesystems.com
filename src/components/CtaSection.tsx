@@ -4,6 +4,7 @@ import { FadeUp } from "./FadeUp";
 import { PrimaryButton } from "./PrimaryButton";
 import { CtaDashboardMock } from "./CtaDashboardMock";
 import { useIsMobile } from "../hooks/useIsMobile";
+import { BOOK_CALL_URL } from "../lib/links";
 
 const GRASS_SRC =
   "https://res.cloudinary.com/dy5er7kv5/image/upload/q_auto/f_auto/v1780586778/cta-bg_mlwy5s.png";
@@ -39,17 +40,19 @@ export function CtaSection() {
           <div className="relative z-20 max-w-[340px]">
             <FadeUp delay={0.1}>
               <h2 className="text-3xl sm:text-4xl font-normal tracking-[-0.02em] leading-[1.05] text-white">
-                Learn how can one go from Invisible to Unforgettable.
+                Know the scope and the price before we write a line of code.
               </h2>
             </FadeUp>
             <FadeUp delay={0.1}>
               <p className="mt-6 text-landing-text text-base sm:text-lg leading-[1.5] max-w-[340px]">
-                Discover how a professionally engineered AI agents can become the foundation of your
-                marketing, sales, and long-term business growth.
+                On a free 20-minute call we talk through your idea, then send you a written scope,
+                timeline, and fixed price. You decide from there.
               </p>
             </FadeUp>
             <FadeUp delay={0.2} className="mt-10">
-              <PrimaryButton as="button">Start for free</PrimaryButton>
+              <PrimaryButton href={BOOK_CALL_URL} target="_blank" rel="noreferrer">
+                Book a free 20-min call
+              </PrimaryButton>
             </FadeUp>
           </div>
         </div>

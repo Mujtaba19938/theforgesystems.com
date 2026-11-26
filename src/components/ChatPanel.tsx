@@ -5,22 +5,22 @@ import { FadeUp } from "./FadeUp";
 const SEED_MESSAGES: { role: "assistant" | "user"; text: string }[] = [
   {
     role: "assistant",
-    text: "Welcome!   Ready to take your business to the next level?",
+    text: "Hi! What would you like to build?",
   },
   {
     role: "user",
-    text: "Yes, I want a Ai agent that helps me grow.",
+    text: "A booking app for my clinic. Patients book online, staff get reminders.",
   },
   {
     role: "assistant",
-    text: "Great choice. At Forge Systems, we build Ai agents that do more than look beautiful, they become powerful business tools that generate leads, build credibility, and support long-term growth.",
+    text: "Got it. That fits a 5-week MVP: patient booking, a staff dashboard, and SMS reminders. We'll send a written scope and fixed price after a quick call.",
   },
 ];
 
 const CANNED_REPLIES = [
-  "That's a great question! Let me walk you through the key principles of cinematic web design using AI tools.",
-  "Absolutely! I'll show you step-by-step how to create that effect. First, let's set up the project structure.",
-  "Perfect — let's start with choosing the right video format and compression settings for web performance.",
+  "Good question. We'll cover that on the call and include it in your written scope.",
+  "That's doable. Most MVPs we scope land in the 4–6 week range.",
+  "Book a free 20-min call and we'll send a fixed price within a couple of days.",
 ];
 
 interface ChatPanelProps {
@@ -88,8 +88,8 @@ export function ChatPanel({
           <MIcon name="auto_awesome" size={14} fill={1} className="text-white/60" />
         </div>
         <div className="min-w-0">
-          <div className="text-sm font-medium text-white truncate">AI Workforce</div>
-          <div className="text-[11px] text-white/40 truncate">Your business, powered by AI</div>
+          <div className="text-sm font-medium text-white truncate">Project chat</div>
+          <div className="text-[11px] text-white/40 truncate">Example conversation</div>
         </div>
       </div>
 
@@ -133,7 +133,7 @@ export function ChatPanel({
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKey}
             rows={1}
-            placeholder="Ask about the course..."
+            placeholder="Describe your idea..."
             className="flex-1 min-w-0 bg-transparent outline-none text-sm text-white/80 placeholder:text-white/30 resize-none leading-relaxed py-1"
           />
           <button

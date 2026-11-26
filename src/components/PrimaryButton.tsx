@@ -33,6 +33,8 @@ interface PrimaryButtonProps {
   className?: string;
   children: ReactNode;
   href?: string;
+  target?: string;
+  rel?: string;
   onClick?: () => void;
 }
 

@@ -1,5 +1,5 @@
 import { ChatPanel } from "./ChatPanel";
-import { VelorahHeroPreview } from "./VelorahHeroPreview";
+import { ScopePreview } from "./ScopePreview";
 
 export function CtaDashboardMock() {
   return (
@@ -9,7 +9,7 @@ export function CtaDashboardMock() {
           <ChatPanel initialScroll="top" animateMessagesIn />
         </div>
         <div className="min-h-0">
-          <VelorahHeroPreview />
+          <ScopePreview />
         </div>
       </div>
     </div>

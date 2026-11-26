@@ -5,27 +5,26 @@ import {
   Check,
   ArrowRight,
   ArrowUpRight,
-  Star,
-  ChevronLeft,
-  ChevronRight,
 } from 'lucide-react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { MotionValue } from 'framer-motion'
 const Shader3 = lazy(() => import('./Shader3').then((m) => ({ default: m.Shader3 })))
 import { CtaSection } from './components/CtaSection'
+import { BOOK_CALL_URL, PORTFOLIO_URL } from './lib/links'
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'Testimonials', href: '#testimonials' },
+  { label: 'How we work', href: '#solutions' },
+  { label: 'Work', href: '#work' },
 ]
 
+
 const STATS = [
-  'Web & Mobile Experts',
-  '15+ Successful Deployments',
-  '4.8 User Satisfaction',
-  'Intentional-First Design',
+  'Fixed-scope MVPs',
+  'Delivered in 4–6 weeks',
+  'Web, mobile, and AI',
+  'Price agreed before we start',
 ]
 
 const SANS = 'system-ui, sans-serif'
@@ -175,9 +174,14 @@ function HeroSection() {
                 {link.label}
               </a>
             ))}
-            <button className="ml-2 bg-white text-black text-sm px-4 py-2 rounded-full hover:bg-white/90 transition-colors cursor-pointer">
-              Get Started
-            </button>
+            <a
+              href={BOOK_CALL_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="ml-2 bg-white text-black text-sm px-4 py-2 rounded-full hover:bg-white/90 transition-colors cursor-pointer"
+            >
+              Book a call
+            </a>
           </div>
 
           {/* Mobile hamburger */}
@@ -203,26 +207,40 @@ function HeroSection() {
 
         {/* Hero content */}
         <div className="flex-1 flex flex-col items-center justify-center text-center">
-          <div className="liquid-glass-legacy rounded-full px-4 py-1.5 text-xs sm:text-sm text-white">
-            Over 10,000 minds already finding their clarity
-          </div>
-
-          <h1 className="mt-6 max-w-4xl text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] text-white">
-            We build websites, apps,
+          <h1 className="max-w-4xl text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] text-white">
+            We build your MVP in weeks,
             <br />
-            and platforms user-first,
-            <br />
-            outcome-driven.
+            at a fixed price.
           </h1>
 
           <p
             className="mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-white/85"
             style={{ fontFamily: SANS }}
           >
-            Rise above the chaos of pings, infinite scrolling, and relentless demands.
-            Discover how to protect your presence and create with intention.
+            Forge Systems is a studio for founders and small businesses. We design and build web
+            apps, mobile apps, and AI automation, with a clear scope and price agreed before we
+            start.
           </p>
 
+          <div
+            className="mt-8 flex flex-col sm:flex-row items-center gap-3"
+            style={{ fontFamily: SANS }}
+          >
+            <a
+              href={BOOK_CALL_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-white text-black text-sm px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
+            >
+              Book a free 20-min call
+            </a>
+            <a
+              href="#work"
+              className="liquid-glass-legacy text-white text-sm px-6 py-3 rounded-full hover:bg-white/10 transition-colors"
+            >
+              See our work
+            </a>
+          </div>
         </div>
 
         {/* Bottom stats */}
@@ -267,7 +285,10 @@ function HeroSection() {
                 {link.label}
               </a>
             ))}
-            <button
+            <a
+              href={BOOK_CALL_URL}
+              target="_blank"
+              rel="noreferrer"
               onClick={() => setMenuOpen(false)}
               className={`mt-4 bg-white text-black px-6 py-3 rounded-full text-base cursor-pointer transition-all duration-500 ${
                 menuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
@@ -278,8 +299,8 @@ function HeroSection() {
                 transitionDelay: menuOpen ? '300ms' : '0ms',
               }}
             >
-              Get Started
-            </button>
+              Book a free 20-min call
+            </a>
           </div>
         </div>
       </div>
@@ -340,36 +361,24 @@ const FEATURE_VIDEO =
 const FEATURE_CARDS = [
   {
     number: '01',
-    title: 'Custom Websites.',
-    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85',
-    items: [
-      'Responsive business websites',
-      'Landing pages that convert',
-      'E-commerce & online stores',
-      'Optimized for speed & SEO',
-    ],
+    title: 'MVP builds.',
+    result: 'Idea to working product in 4–6 weeks.',
+    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85',
+    items: ['Web and mobile apps', 'Fixed scope and price', 'Yours to own and grow'],
   },
   {
     number: '02',
-    title: 'AI Automation.',
+    title: 'AI automation.',
+    result: 'Chatbots and workflows that remove manual work.',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85',
-    items: [
-      'AI chatbots & virtual assistants',
-      'Workflow automation',
-      'Intelligent business tools',
-      'Seamless API integrations',
-    ],
+    items: ['Customer support chatbots', 'Back-office workflows', 'Connected to your tools'],
   },
   {
     number: '03',
-    title: 'Custom Software.',
-    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85',
-    items: [
-      'Dashboards & client portals',
-      'CRM & ERP solutions',
-      'Secure, scalable web applications',
-      'Built around your business',
-    ],
+    title: 'Websites & e-commerce.',
+    result: 'Fast sites that turn visitors into customers.',
+    icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85',
+    items: ['Business sites and landing pages', 'Online stores', 'Built for speed and search'],
   },
 ]
 
@@ -413,7 +422,7 @@ function FeaturesSection() {
             className="w-full"
             segments={[
               {
-                text: 'Everything you need to establish, automate, and grow your digital presence.',
+                text: 'One main offer, two that support it.',
                 className: 'text-gray-500',
               },
             ]}
@@ -437,7 +446,7 @@ function FeaturesSection() {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent" />
             <p className="absolute bottom-5 left-5 right-5 text-lg sm:text-xl text-[#E1E0CC]">
-              Your creative canvas.
+              Scoped, built, launched.
             </p>
           </FeatureCardShell>
 
@@ -459,6 +468,9 @@ function FeaturesSection() {
                   ({card.number})
                 </sup>
               </h3>
+              <p className="mt-3 text-base text-white/85" style={{ fontFamily: SANS }}>
+                {card.result}
+              </p>
               <ul className="mt-5 space-y-3 flex-1" style={{ fontFamily: SANS }}>
                 {card.items.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
@@ -468,11 +480,13 @@ function FeaturesSection() {
                 ))}
               </ul>
               <a
-                href="#"
+                href={BOOK_CALL_URL}
+                target="_blank"
+                rel="noreferrer"
                 className="mt-8 inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors group"
                 style={{ fontFamily: SANS }}
               >
-                Learn more
+                Talk to us
                 <ArrowRight className="w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" />
               </a>
             </FeatureCardShell>
@@ -489,24 +503,20 @@ function FeaturesSection() {
 
 const SOLUTION_FEATURES = [
   {
-    title: 'Premium Websites',
-    description:
-      'We design and develop fast, responsive websites that strengthen your brand, engage visitors, and convert them into customers.',
+    title: '1. Free 20-min call',
+    description: 'You tell us the idea and the problem it solves. We ask the questions that shape the scope.',
   },
   {
-    title: 'AI Solutions',
-    description:
-      'Automate repetitive tasks, improve customer experiences, and streamline operations with intelligent AI-powered systems.',
+    title: '2. Written scope and price',
+    description: 'You get a feature list, a timeline, and one fixed price. Nothing starts until you agree.',
   },
   {
-    title: 'Custom Software',
-    description:
-      'From internal dashboards to full-scale web applications, we build secure, scalable software tailored to your business.',
+    title: '3. Build in weeks',
+    description: 'Weekly demos so you see progress and give feedback while it still costs nothing to change.',
   },
   {
-    title: 'Ongoing Partnership',
-    description:
-      "We don't disappear after launch. From maintenance and optimization to future enhancements, we're invested in your long-term success.",
+    title: '4. Launch and support',
+    description: 'We ship it, hand over the code, and stay on for fixes and the next round of features.',
   },
 ]
 
@@ -521,15 +531,15 @@ function SolutionSection() {
           className="text-xs tracking-[3px] uppercase text-gray-500"
           style={{ fontFamily: SANS }}
         >
-          Solution
+          How we work
         </div>
 
         <h2 className="mt-6 text-4xl md:text-6xl text-white leading-tight max-w-3xl">
           <WordsPullUpMultiStyle
             justify="justify-start"
             segments={[
-              { text: 'The platform for building', className: 'font-normal' },
-              { text: 'your online presence.', className: 'italic' },
+              { text: 'No surprise invoices,', className: 'font-normal' },
+              { text: 'no open-ended timelines.', className: 'italic' },
             ]}
           />
         </h2>
@@ -553,186 +563,101 @@ function SolutionSection() {
 /* ---------------------------------- */
 
 /* ---------------------------------- */
-/* Section 6: Testimonials            */
+/* Section 6: Work / case studies     */
 /* ---------------------------------- */
 
-const TESTIMONIALS = [
+// Our own products used as case studies. Swap in client projects (with real
+// results) as they come in. Keep every claim here something you can show.
+const CASE_STUDIES = [
   {
-    name: 'Marcus Anderson',
-    role: 'CEO, Data.storage',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=96',
-    quote:
-      'With very little guidance the team delivered designs that were consistently spot on — polished, on-brand, and ready to ship.',
+    tag: 'AI automation',
+    title: 'AR automation agent',
+    problem: 'Chasing unpaid invoices by hand eats hours every week.',
+    built: 'An AI agent that tracks open invoices, sends reminders, and flags accounts that need a person.',
+    result: 'Our own product, built and run end to end by Forge Systems.',
   },
   {
-    name: 'alexwu',
-    role: 'Founder, Nexgate',
-    avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=96',
-    quote:
-      'ForgeSystems led the creation of our best fundraising deck to date! Clear, confident, and beautifully designed.',
-  },
-  {
-    name: 'James Mitchell',
-    role: 'VP Product, LaunchPad',
-    avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=96',
-    quote:
-      'Working with ForgeSystems transformed our product vision into something users genuinely love.',
-  },
-  {
-    name: 'Rachel Foster',
-    role: 'Co-founder, Nexus Labs',
-    avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=96',
-    quote:
-      'The design quality exceeded our expectations at every turn — fast, thoughtful, and detail-obsessed.',
-  },
-  {
-    name: 'David Zhang',
-    role: 'Head of Design, Paradigm Labs',
-    avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=96',
-    quote:
-      'Incredible work from start to finish. Communication was effortless and the results speak for themselves.',
+    tag: 'Mobile app',
+    title: 'Farmers-market app',
+    problem: 'Local growers had no simple way to list produce or take pre-orders.',
+    built: 'A mobile app where vendors post stock and shoppers reserve items before market day.',
+    result: 'Our own product, designed and shipped as a fixed-scope MVP.',
   },
 ]
 
-function QuoteMark() {
-  return (
-    <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M0 24V14.4C0 6.45 4.95 1.2 13.05 0l1.35 3.6c-4.5 1.2-7.05 3.75-7.35 7.2h6.15V24H0Zm18.75 0V14.4c0-7.95 4.95-13.2 13.05-14.4l1.35 3.6c-4.5 1.2-7.05 3.75-7.35 7.2h6.15V24H18.75Z"
-        fill="#b5c99a"
-      />
-    </svg>
-  )
-}
-
-function TestimonialsSection() {
-  const N = TESTIMONIALS.length
-  const tripled = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS]
-
-  const [index, setIndex] = useState(N)
-  const [instant, setInstant] = useState(false)
-  const [paused, setPaused] = useState(false)
-  const [step, setStep] = useState(451.5)
-  const trackRef = useRef<HTMLDivElement>(null)
-
+function WorkSection() {
   const header = useInViewAnimation<HTMLDivElement>()
-  const carousel = useInViewAnimation<HTMLDivElement>()
-
-  useEffect(() => {
-    const measure = () => {
-      const first = trackRef.current?.children[0] as HTMLElement | undefined
-      if (first) setStep(first.offsetWidth + 24)
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
-
-  useEffect(() => {
-    if (paused) return
-    const id = setInterval(() => setIndex((i) => i + 1), 3000)
-    return () => clearInterval(id)
-  }, [paused])
-
-  // After sliding past a copy boundary, snap back to the middle copy
-  // without a transition so the loop is seamless.
-  const handleTransitionEnd = () => {
-    setIndex((i) => {
-      if (i >= 2 * N) {
-        setInstant(true)
-        return i - N
-      }
-      if (i < N) {
-        setInstant(true)
-        return i + N
-      }
-      return i
-    })
-  }
-
-  useEffect(() => {
-    if (!instant) return
-    const id = setTimeout(() => setInstant(false), 50)
-    return () => clearTimeout(id)
-  }, [instant])
-
+  const grid = useInViewAnimation<HTMLDivElement>()
   return (
-    <section id="testimonials" className="bg-black py-20 border-t border-white/10 overflow-hidden">
-      {/* Header row */}
+    <section id="work" className="bg-black py-20 sm:py-28 border-t border-white/10">
       <div
         ref={header.ref}
         className={`max-w-6xl mx-auto px-6 sm:px-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6 ${header.animClass}`}
       >
         <h2 className="text-4xl md:text-6xl text-white leading-tight">
-          What <span className="italic">clients</span> say
+          Selected <span className="italic">work</span>
         </h2>
-        <div className="flex flex-col items-start md:items-end gap-4">
-          <div className="flex items-center gap-2" style={{ fontFamily: SANS }}>
-            <span className="flex gap-0.5">
-              {Array.from({ length: 5 }, (_, i) => (
-                <Star key={i} className="w-5 h-5 text-white fill-white" />
-              ))}
-            </span>
-            <span className="text-white text-sm">Clutch 5/5</span>
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setIndex((i) => i - 1)}
-              aria-label="Previous testimonial"
-              className="w-12 h-12 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => setIndex((i) => i + 1)}
-              aria-label="Next testimonial"
-              className="w-12 h-12 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+        <a
+          href={PORTFOLIO_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors"
+          style={{ fontFamily: SANS }}
+        >
+          Full portfolio <ArrowUpRight className="w-4 h-4" />
+        </a>
       </div>
 
-      {/* Carousel */}
       <div
-        ref={carousel.ref}
-        className={`mt-12 pl-6 sm:pl-8 ${carousel.animClass}`}
-        style={{ animationDelay: '0.2s' }}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        ref={grid.ref}
+        className={`mt-12 max-w-6xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-4 ${grid.animClass}`}
+        style={{ fontFamily: SANS, animationDelay: '0.2s' }}
       >
-        <div
-          ref={trackRef}
-          className="flex gap-6"
-          onTransitionEnd={handleTransitionEnd}
-          style={{
-            transform: `translateX(-${index * step}px)`,
-            transition: instant ? 'none' : 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-          }}
-        >
-          {tripled.map((t, i) => (
-            <div
-              key={`${t.name}-${i}`}
-              className="shrink-0 w-[calc(100vw-48px)] md:w-[427.5px] liquid-glass-legacy bg-[#141414] rounded-[32px] md:rounded-[40px] px-6 md:pl-10 md:pr-16 py-8 flex flex-col"
-            >
-              <QuoteMark />
-              <p
-                className="mt-5 text-base text-white/90 leading-relaxed flex-1"
-                style={{ fontFamily: SANS }}
-              >
-                {t.quote}
-              </p>
-              <div className="mt-8 flex items-center gap-4" style={{ fontFamily: SANS }}>
-                <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
-                <div>
-                  <div className="font-semibold text-sm text-cream">{t.name}</div>
-                  <div className="text-sm text-gray-400">→ {t.role}</div>
-                </div>
+        {CASE_STUDIES.map((c) => (
+          <article
+            key={c.title}
+            className="liquid-glass-legacy bg-[#141414] rounded-3xl p-6 sm:p-8 flex flex-col"
+          >
+            <span className="text-[11px] uppercase tracking-[0.2em] text-primary">{c.tag}</span>
+            <h3 className="mt-3 text-2xl text-cream" style={{ fontFamily: 'inherit' }}>
+              {c.title}
+            </h3>
+            <dl className="mt-6 space-y-4 text-sm leading-relaxed">
+              <div>
+                <dt className="text-gray-500">Problem</dt>
+                <dd className="text-white/85">{c.problem}</dd>
               </div>
-            </div>
-          ))}
-        </div>
+              <div>
+                <dt className="text-gray-500">What we built</dt>
+                <dd className="text-white/85">{c.built}</dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Result</dt>
+                <dd className="text-white/85">{c.result}</dd>
+              </div>
+            </dl>
+          </article>
+        ))}
+
+        {/* Pilot program */}
+        <article className="rounded-3xl p-6 sm:p-8 flex flex-col border border-dashed border-white/20">
+          <span className="inline-flex self-start items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-white">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" /> 1 spot open
+          </span>
+          <h3 className="mt-4 text-2xl text-cream">Pilot program</h3>
+          <p className="mt-4 text-sm text-white/85 leading-relaxed flex-1">
+            We build one small product for free. In return you give us an honest testimonial and
+            let us publish the project as a case study.
+          </p>
+          <a
+            href={BOOK_CALL_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 self-start bg-white text-black rounded-full px-5 py-2.5 text-sm hover:bg-white/90 transition-colors"
+          >
+            Apply for the pilot
+          </a>
+        </article>
       </div>
     </section>
   )
@@ -744,7 +669,7 @@ function TestimonialsSection() {
 
 const FOOTER_LINKS = [
   { label: 'Services', href: '#services', external: false },
-  { label: 'Work', href: 'https://portfolio-mzrs.vercel.app/', external: true },
+  { label: 'Work', href: PORTFOLIO_URL, external: true },
   { label: 'About', href: '#about', external: false },
 ]
 
@@ -813,7 +738,7 @@ function Footer() {
 
       {/* Copyright bar */}
       <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between text-sm text-gray-500">
-        <span>ForgeSystems</span>
+        <span>Forge Systems</span>
         <span>Dubai, UAE</span>
       </div>
     </footer>
@@ -828,7 +753,7 @@ export default function App() {
       <FeaturesSection />
       <SolutionSection />
       <CtaSection />
-      <TestimonialsSection />
+      <WorkSection />
       <Footer />
     </main>
   )
