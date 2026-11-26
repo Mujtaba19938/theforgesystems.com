@@ -10,7 +10,7 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { MotionValue } from 'framer-motion'
 const Shader3 = lazy(() => import('./Shader3').then((m) => ({ default: m.Shader3 })))
 import { CtaSection } from './components/CtaSection'
-import { BOOK_CALL_URL, PORTFOLIO_URL } from './lib/links'
+import { BOOK_CALL_URL, CONTACT_EMAIL, PORTFOLIO_URL } from './lib/links'
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -21,11 +21,14 @@ const NAV_LINKS = [
 
 
 const STATS = [
-  'Fixed-scope MVPs',
-  'Delivered in 4–6 weeks',
-  'Web, mobile, and AI',
-  'Price agreed before we start',
+  { label: 'MVPs from $3,000' },
+  { label: 'Pilot program: 1 spot open', href: '#pilot' },
+  { label: 'Based in Dubai, working worldwide' },
 ]
+
+// Shared keyboard focus ring for links and buttons on dark backgrounds.
+const FOCUS =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black'
 
 const SANS = 'system-ui, sans-serif'
 
@@ -156,7 +159,7 @@ function HeroSection() {
       <div className="relative z-[2] flex flex-col h-full px-5 sm:px-8 md:px-12 py-5 sm:py-6">
         {/* Navigation */}
         <nav className="flex items-center justify-between">
-          <a href="#" className="text-white italic text-xl sm:text-2xl">
+          <a href="#" className={`text-white italic text-xl sm:text-2xl rounded ${FOCUS}`}>
             ForgeSystems
           </a>
 
@@ -169,7 +172,7 @@ function HeroSection() {
               <a
                 key={link.label}
                 href={link.href}
-                className="px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors"
+                className={`px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors rounded-full ${FOCUS}`}
               >
                 {link.label}
               </a>
@@ -178,7 +181,7 @@ function HeroSection() {
               href={BOOK_CALL_URL}
               target="_blank"
               rel="noreferrer"
-              className="ml-2 bg-white text-black text-sm px-4 py-2 rounded-full hover:bg-white/90 transition-colors cursor-pointer"
+              className={`ml-2 bg-white text-black text-sm px-4 py-2 rounded-full hover:bg-white/90 transition-colors cursor-pointer ${FOCUS}`}
             >
               Book a call
             </a>
@@ -188,7 +191,7 @@ function HeroSection() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            className="md:hidden liquid-glass-legacy rounded-full p-3 text-white cursor-pointer z-[60]"
+            className={`md:hidden liquid-glass-legacy rounded-full p-3 text-white cursor-pointer z-[60] ${FOCUS}`}
           >
             <span className="relative block w-5 h-5">
               <Menu
@@ -207,17 +210,16 @@ function HeroSection() {
 
         {/* Hero content */}
         <div className="flex-1 flex flex-col items-center justify-center text-center">
-          <h1 className="max-w-4xl text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] text-white">
-            We build your MVP in weeks,
-            <br />
-            at a fixed price.
+          <h1 className="max-w-5xl text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] text-white">
+            <span className="block text-balance">We build your MVP in weeks,</span>
+            <span className="block text-balance">at a fixed price.</span>
           </h1>
 
           <p
             className="mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-white/85"
             style={{ fontFamily: SANS }}
           >
-            Forge Systems is a studio for founders and small businesses. We design and build web
+            ForgeSystems is a studio for founders and small businesses. We design and build web
             apps, mobile apps, and AI automation, with a clear scope and price agreed before we
             start.
           </p>
@@ -230,13 +232,13 @@ function HeroSection() {
               href={BOOK_CALL_URL}
               target="_blank"
               rel="noreferrer"
-              className="bg-white text-black text-sm px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
+              className={`bg-white text-black text-sm px-6 py-3 rounded-full hover:bg-white/90 transition-colors ${FOCUS}`}
             >
               Book a free 20-min call
             </a>
             <a
               href="#work"
-              className="liquid-glass-legacy text-white text-sm px-6 py-3 rounded-full hover:bg-white/10 transition-colors"
+              className={`liquid-glass-legacy text-white text-sm px-6 py-3 rounded-full hover:bg-white/10 transition-colors ${FOCUS}`}
             >
               See our work
             </a>
@@ -249,9 +251,18 @@ function HeroSection() {
           style={{ fontFamily: SANS }}
         >
           {STATS.map((stat, i) => (
-            <span key={stat} className="flex items-center gap-4">
+            <span key={stat.label} className="flex items-center gap-4">
               {i > 0 && <span className="hidden sm:inline text-white/30">|</span>}
-              {stat}
+              {stat.href ? (
+                <a
+                  href={stat.href}
+                  className={`text-white underline underline-offset-4 decoration-white/40 hover:decoration-white rounded ${FOCUS}`}
+                >
+                  {stat.label}
+                </a>
+              ) : (
+                stat.label
+              )}
             </span>
           ))}
         </div>
@@ -355,14 +366,13 @@ function AboutSection() {
 /* Section 3: Features                */
 /* ---------------------------------- */
 
-const FEATURE_VIDEO =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_133058_0504132a-0cf3-4450-a370-8ea3b05c95d4.mp4'
-
 const FEATURE_CARDS = [
   {
     number: '01',
     title: 'MVP builds.',
     result: 'Idea to working product in 4–6 weeks.',
+    price: 'From $3,000',
+    cta: 'Scope an MVP',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85',
     items: ['Web and mobile apps', 'Fixed scope and price', 'Yours to own and grow'],
   },
@@ -370,13 +380,17 @@ const FEATURE_CARDS = [
     number: '02',
     title: 'AI automation.',
     result: 'Chatbots and workflows that remove manual work.',
+    price: undefined,
+    cta: 'Automate a workflow',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85',
     items: ['Customer support chatbots', 'Back-office workflows', 'Connected to your tools'],
   },
   {
     number: '03',
-    title: 'Websites & e-commerce.',
+    title: 'Websites & stores.',
     result: 'Fast sites that turn visitors into customers.',
+    price: undefined,
+    cta: 'Plan a site',
     icon: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85',
     items: ['Business sites and landing pages', 'Online stores', 'Built for speed and search'],
   },
@@ -408,7 +422,7 @@ function FeatureCardShell({
 
 function FeaturesSection() {
   return (
-    <section id="services" className="relative min-h-screen bg-black overflow-hidden">
+    <section id="services" className="relative bg-black overflow-hidden">
       <div className="bg-noise absolute inset-0 opacity-[0.15] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28">
@@ -430,24 +444,32 @@ function FeaturesSection() {
         </div>
 
         {/* Card grid */}
-        <div className="mt-14 sm:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-2 md:gap-1 lg:h-[480px]">
-          {/* Card 1 — video */}
+        <div className="mt-14 sm:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Card 1 — price anchor */}
           <FeatureCardShell
             index={0}
-            className="relative rounded-2xl overflow-hidden h-64 md:h-80 lg:h-full"
+            className="rounded-2xl bg-white text-black p-5 sm:p-6 flex flex-col"
           >
-            <video
-              src={FEATURE_VIDEO}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent" />
-            <p className="absolute bottom-5 left-5 right-5 text-lg sm:text-xl text-[#E1E0CC]">
-              Scoped, built, launched.
+            <div className="text-xs uppercase tracking-[0.2em] text-black/60" style={{ fontFamily: SANS }}>
+              Fixed price
+            </div>
+            <div className="mt-5 text-sm text-black/70" style={{ fontFamily: SANS }}>
+              MVPs from
+            </div>
+            <div className="text-5xl sm:text-6xl leading-none">$3,000</div>
+            <p className="mt-5 text-sm text-black/75 leading-relaxed" style={{ fontFamily: SANS }}>
+              You get one written price before we start. If the scope doesn't change, the price
+              doesn't either.
             </p>
+            <a
+              href={BOOK_CALL_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 lg:mt-auto self-start inline-flex items-center gap-1.5 bg-black text-white rounded-full px-5 py-2.5 text-sm hover:bg-black/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              style={{ fontFamily: SANS }}
+            >
+              Get a quote
+            </a>
           </FeatureCardShell>
 
           {/* Cards 2–4 — checklists */}
@@ -471,11 +493,16 @@ function FeaturesSection() {
               <p className="mt-3 text-base text-white/85" style={{ fontFamily: SANS }}>
                 {card.result}
               </p>
-              <ul className="mt-5 space-y-3 flex-1" style={{ fontFamily: SANS }}>
+              {card.price && (
+                <p className="mt-2 text-sm text-primary" style={{ fontFamily: SANS }}>
+                  {card.price}
+                </p>
+              )}
+              <ul className="mt-5 space-y-3" style={{ fontFamily: SANS }}>
                 {card.items.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-400">{item}</span>
+                    <span className="text-sm text-white/70">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -483,10 +510,10 @@ function FeaturesSection() {
                 href={BOOK_CALL_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-8 inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors group"
+                className={`mt-6 lg:mt-auto lg:pt-6 self-start inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors group rounded ${FOCUS}`}
                 style={{ fontFamily: SANS }}
               >
-                Talk to us
+                {card.cta}
                 <ArrowRight className="w-4 h-4 -rotate-45 transition-transform group-hover:rotate-0" />
               </a>
             </FeatureCardShell>
@@ -503,19 +530,23 @@ function FeaturesSection() {
 
 const SOLUTION_FEATURES = [
   {
-    title: '1. Free 20-min call',
+    when: 'Day 1',
+    title: 'Free 20-min call',
     description: 'You tell us the idea and the problem it solves. We ask the questions that shape the scope.',
   },
   {
-    title: '2. Written scope and price',
+    when: 'Week 1',
+    title: 'Written scope and price',
     description: 'You get a feature list, a timeline, and one fixed price. Nothing starts until you agree.',
   },
   {
-    title: '3. Build in weeks',
-    description: 'Weekly demos so you see progress and give feedback while it still costs nothing to change.',
+    when: 'Weeks 2–5',
+    title: 'Build, with weekly demos',
+    description: 'You see progress every week and give feedback while it still costs nothing to change.',
   },
   {
-    title: '4. Launch and support',
+    when: 'Week 6',
+    title: 'Launch and support',
     description: 'We ship it, hand over the code, and stay on for fixes and the next round of features.',
   },
 ]
@@ -524,11 +555,11 @@ function SolutionSection() {
   return (
     <section
       id="solutions"
-      className="bg-black py-32 md:py-44 border-t border-white/10 px-6 sm:px-8 md:px-28"
+      className="bg-black py-20 sm:py-28 border-t border-white/10 px-6 sm:px-8"
     >
       <div className="max-w-6xl mx-auto">
         <div
-          className="text-xs tracking-[3px] uppercase text-gray-500"
+          className="text-xs tracking-[3px] uppercase text-white/70"
           style={{ fontFamily: SANS }}
         >
           How we work
@@ -544,14 +575,29 @@ function SolutionSection() {
           />
         </h2>
 
-        <div className="mt-16 md:mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {SOLUTION_FEATURES.map((feature) => (
-            <div key={feature.title} style={{ fontFamily: SANS }}>
-              <h3 className="font-semibold text-base text-cream">{feature.title}</h3>
-              <p className="mt-2 text-gray-400 text-sm leading-relaxed">{feature.description}</p>
-            </div>
+        <ol className="relative mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+          {/* Connecting line: vertical on mobile, horizontal on desktop */}
+          <span
+            aria-hidden
+            className="absolute left-[27px] top-14 bottom-14 w-px bg-white/15 md:left-14 md:right-14 md:top-7 md:bottom-auto md:w-auto md:h-px"
+          />
+          {SOLUTION_FEATURES.map((feature, i) => (
+            <li
+              key={feature.title}
+              className="relative flex md:flex-col gap-5 md:gap-0"
+              style={{ fontFamily: SANS }}
+            >
+              <span className="relative z-10 shrink-0 w-14 h-14 rounded-full bg-black border border-white/25 flex items-center justify-center text-2xl text-white" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div className="md:mt-6">
+                <div className="text-xs uppercase tracking-[0.2em] text-primary">{feature.when}</div>
+                <h3 className="mt-2 font-semibold text-lg text-cream">{feature.title}</h3>
+                <p className="mt-2 text-white/75 text-sm leading-relaxed">{feature.description}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )
@@ -574,7 +620,7 @@ const CASE_STUDIES = [
     title: 'AR automation agent',
     problem: 'Chasing unpaid invoices by hand eats hours every week.',
     built: 'An AI agent that tracks open invoices, sends reminders, and flags accounts that need a person.',
-    result: 'Our own product, built and run end to end by Forge Systems.',
+    result: 'Our own product, built and run end to end by ForgeSystems.',
   },
   {
     tag: 'Mobile app',
@@ -601,7 +647,7 @@ function WorkSection() {
           href={PORTFOLIO_URL}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors"
+          className={`inline-flex items-center gap-1.5 text-sm text-cream hover:text-white transition-colors rounded ${FOCUS}`}
           style={{ fontFamily: SANS }}
         >
           Full portfolio <ArrowUpRight className="w-4 h-4" />
@@ -610,7 +656,7 @@ function WorkSection() {
 
       <div
         ref={grid.ref}
-        className={`mt-12 max-w-6xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-3 gap-4 ${grid.animClass}`}
+        className={`mt-12 max-w-6xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-2 gap-4 ${grid.animClass}`}
         style={{ fontFamily: SANS, animationDelay: '0.2s' }}
       >
         {CASE_STUDIES.map((c) => (
@@ -624,40 +670,103 @@ function WorkSection() {
             </h3>
             <dl className="mt-6 space-y-4 text-sm leading-relaxed">
               <div>
-                <dt className="text-gray-500">Problem</dt>
+                <dt className="text-white/70">Problem</dt>
                 <dd className="text-white/85">{c.problem}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">What we built</dt>
+                <dt className="text-white/70">What we built</dt>
                 <dd className="text-white/85">{c.built}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Result</dt>
+                <dt className="text-white/70">Result</dt>
                 <dd className="text-white/85">{c.result}</dd>
               </div>
             </dl>
           </article>
         ))}
 
-        {/* Pilot program */}
-        <article className="rounded-3xl p-6 sm:p-8 flex flex-col border border-dashed border-white/20">
-          <span className="inline-flex self-start items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-white">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" /> 1 spot open
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Pilot program CTA (after hero)     */
+/* ---------------------------------- */
+
+function PilotSection() {
+  const anim = useInViewAnimation<HTMLDivElement>()
+  return (
+    <section id="pilot" className="bg-black px-4 sm:px-8 pt-12 sm:pt-16" style={{ fontFamily: SANS }}>
+      <div
+        ref={anim.ref}
+        className={`max-w-6xl mx-auto rounded-3xl border border-dashed border-white/25 p-6 sm:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 ${anim.animClass}`}
+      >
+        <div className="max-w-2xl">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-white">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" /> Pilot program · 1 spot open
           </span>
-          <h3 className="mt-4 text-2xl text-cream">Pilot program</h3>
-          <p className="mt-4 text-sm text-white/85 leading-relaxed flex-1">
-            We build one small product for free. In return you give us an honest testimonial and
-            let us publish the project as a case study.
+          <h2
+            className="mt-4 text-3xl sm:text-4xl text-cream leading-tight"
+            style={{ fontFamily: "'Instrument Serif', serif" }}
+          >
+            We'll build one small product for free.
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-white/80 leading-relaxed">
+            In return you give us an honest testimonial and let us publish the project as a case
+            study.
           </p>
+        </div>
+        <a
+          href={BOOK_CALL_URL}
+          target="_blank"
+          rel="noreferrer"
+          className={`shrink-0 self-start md:self-center bg-white text-black rounded-full px-6 py-3 text-sm hover:bg-white/90 transition-colors ${FOCUS}`}
+        >
+          Apply for the pilot
+        </a>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------- */
+/* Closing CTA                        */
+/* ---------------------------------- */
+
+function ClosingSection() {
+  const anim = useInViewAnimation<HTMLDivElement>()
+  return (
+    <section className="bg-black border-t border-white/10 px-6 sm:px-8 py-24 sm:py-32">
+      <div ref={anim.ref} className={`max-w-3xl mx-auto text-center ${anim.animClass}`}>
+        <h2 className="text-4xl sm:text-5xl md:text-6xl text-white leading-tight text-balance">
+          Have an idea? Let's scope it in <span className="italic">20 minutes.</span>
+        </h2>
+        <p
+          className="mt-5 text-sm sm:text-base text-white/75 leading-relaxed"
+          style={{ fontFamily: SANS }}
+        >
+          MVPs from $3,000, with a written scope and fixed price before any work starts.
+        </p>
+        <div
+          className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+          style={{ fontFamily: SANS }}
+        >
           <a
             href={BOOK_CALL_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-8 self-start bg-white text-black rounded-full px-5 py-2.5 text-sm hover:bg-white/90 transition-colors"
+            className={`bg-white text-black rounded-full px-6 py-3 text-sm hover:bg-white/90 transition-colors ${FOCUS}`}
           >
-            Apply for the pilot
+            Book a free 20-min call
           </a>
-        </article>
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className={`text-sm text-white underline underline-offset-4 decoration-white/40 hover:decoration-white rounded ${FOCUS}`}
+          >
+            {CONTACT_EMAIL}
+          </a>
+        </div>
       </div>
     </section>
   )
@@ -674,7 +783,7 @@ const FOOTER_LINKS = [
 ]
 
 const FOOTER_SOCIALS = [
-  { label: 'x.com', href: 'https://x.com' },
+  { label: 'Email', href: `mailto:${CONTACT_EMAIL}` },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mujtaba-khanani' },
   { label: 'GitHub', href: 'https://github.com/Mujtaba19938' },
 ]
@@ -691,14 +800,14 @@ function Footer() {
       style={{ fontFamily: SANS }}
     >
       <div className="max-w-[1200px] mx-auto py-12 px-6 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-        <a
-          href="https://wa.me/923302921404"
-          target="_blank"
-          rel="noreferrer"
-          className="self-start bg-white text-black rounded-full px-6 py-3 text-sm hover:bg-white/90 transition-colors"
-        >
-          Start a chat
-        </a>
+        <div>
+          <div className="text-white italic text-xl" style={{ fontFamily: "'Instrument Serif', serif" }}>
+            ForgeSystems
+          </div>
+          <p className="mt-2 max-w-xs text-sm text-white/70">
+            MVPs, AI automation, and websites for founders and small businesses.
+          </p>
+        </div>
 
         <div className="flex items-start gap-8" onMouseLeave={() => setArrowY(0)}>
           <ArrowUpRight
@@ -713,7 +822,7 @@ function Footer() {
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noreferrer' : undefined}
                 onMouseEnter={moveArrow}
-                className="text-base text-white hover:opacity-70 transition-opacity"
+                className={`text-base text-white hover:opacity-70 transition-opacity rounded ${FOCUS}`}
               >
                 {link.label}
               </a>
@@ -727,7 +836,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 onMouseEnter={moveArrow}
-                className="text-base text-white hover:opacity-70 transition-opacity"
+                className={`text-base text-white hover:opacity-70 transition-opacity rounded ${FOCUS}`}
               >
                 {link.label}
               </a>
@@ -737,8 +846,8 @@ function Footer() {
       </div>
 
       {/* Copyright bar */}
-      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between text-sm text-gray-500">
-        <span>Forge Systems</span>
+      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between text-sm text-white/60">
+        <span>© {new Date().getFullYear()} ForgeSystems</span>
         <span>Dubai, UAE</span>
       </div>
     </footer>
@@ -749,11 +858,13 @@ export default function App() {
   return (
     <main className="bg-black">
       <HeroSection />
+      <PilotSection />
       <AboutSection />
       <FeaturesSection />
       <SolutionSection />
       <CtaSection />
       <WorkSection />
+      <ClosingSection />
       <Footer />
     </main>
   )

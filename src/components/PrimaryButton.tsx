@@ -49,7 +49,7 @@ export function PrimaryButton({
   return (
     <Component
       className={cn(
-        "group inline-flex items-center justify-center rounded-full bg-white/80 hover:bg-white text-black leading-none transition-colors cursor-pointer",
+        "group inline-flex items-center justify-center rounded-full bg-white/80 hover:bg-white text-black leading-none transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black",
         SIZES[size],
         className
       )}
